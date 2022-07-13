@@ -1,0 +1,60 @@
+server:
+  port: 8093
+#  servlet:
+#    context-path : /api
+  error:
+    include-message: always
+    include-binding-errors: always
+spring:
+  datasource:
+    password: password
+    url: jdbc:postgresql://localhost:5432/account
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${SENDER_EMAIL}
+    password: ${SENDER_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  application:
+    name: accounts
+  profiles:
+    active: prod
+  config:
+    import: optional:configserver:http://localhost:8071/
+logging:
+  level:
+    org.springframework.web: DEBUG
+
+app:
+  base:
+    url: http://localhost:8080
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8762/eureka/
+  instance:
+    hostname: localhost
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+

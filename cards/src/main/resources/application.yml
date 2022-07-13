@@ -1,0 +1,44 @@
+server:
+  port: 8082
+  #  servlet:
+  #    context-path : /api
+  error:
+    include-message: always
+    include-binding-errors: always
+spring:
+  datasource:
+    password: password
+    url: jdbc:postgresql://localhost:5432/card
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+  application:
+    name: cards
+  profiles:
+    active: prod
+  config:
+      import: optional:configserver:http://localhost:8071/
+logging:
+  level:
+    org.springframework.web: DEBUG
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8762/eureka/
+  instance:
+    hostname: localhost
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
