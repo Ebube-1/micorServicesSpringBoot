@@ -51,10 +51,29 @@ eureka:
       defaultZone: http://localhost:8762/eureka/
   instance:
     hostname: localhost
+    preferIpAddress: true
+
+info:
+  app:
+    name: Accounts Microservice
+    description: Fintech Bank Accounts Application
+    version: 1.0.0
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+
+resilience4j:
+  circuitbreaker:
+      configs:
+        default:
+          registerHealthIndicator: true
+      instances:
+        detailsForCustomerSupportApp:
+          minimumNumberOfCalls: 5
+          failureRateThreshold: 50
+          waitDurationInOpenState: 30000
+          permittedNumberOfCallsInHalfOpenState: 2
 

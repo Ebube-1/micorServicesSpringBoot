@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.config.LoansServiceConfig;
-import com.example.demo.model.Account;
+import com.example.demo.model.Customer;
 import com.example.demo.model.Loans;
 import com.example.demo.model.Properties;
 import com.example.demo.repository.LoansRepository;
@@ -23,9 +23,9 @@ public class LoanController {
     private final LoansRepository loansRepository;
     private final LoansServiceConfig loansConfig;
 
-    @PostMapping("/api/myLoans")
-    public List<Loans> getLoansDetails(@RequestBody Account account) {
-        List<Loans> loans = loansRepository.findByAccountIdOrderByStartDtDesc(account.getAccountId());
+    @PostMapping("/myLoans")
+    public List<Loans> getLoansDetails(@RequestBody Customer customer) {
+        List<Loans> loans = loansRepository.findByCustomerIdOrderByStartDtDesc(customer.getCustomerId());
         if (loans != null) {
             return loans;
         } else {

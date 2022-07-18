@@ -1,14 +1,20 @@
 package com.example.demo.controller;
 
 import com.example.demo.config.AccountsServiceConfig;
-import com.example.demo.model.Properties;
+import com.example.demo.model.*;
+import com.example.demo.repository.AccountsRepository;
 import com.example.demo.service.AccountService;
+import com.example.demo.serviceClients.CardsFeignClient;
+import com.example.demo.serviceClients.LoansFeignClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("")
@@ -17,10 +23,14 @@ public class AccountController {
 
     private final AccountService accountService;
     private final AccountsServiceConfig accountsConfig;
+    private final LoansFeignClient loansFeignClient;
+    private final CardsFeignClient cardsFeignClient;
+    private final AccountsRepository accountsRepository;
 
-    @GetMapping("/{id}")
-    public ResponseEntity getAccount(@PathVariable("id") Long id) {
-        return accountService.getAccount(id);
+
+    @PostMapping("/myAccount")
+    public ResponseEntity getAccountDetails(@RequestBody Customer customer) {
+       return accountService.getAccountDetails(customer);
     }
 
     @GetMapping("/account/properties")
@@ -30,6 +40,23 @@ public class AccountController {
                 accountsConfig.getMailDetails(), accountsConfig.getActiveBranches());
         String jsonStr = ow.writeValueAsString(properties);
         return jsonStr;
+    }
+
+
+    @PostMapping("/myCustomerDetails")
+    @CircuitBreaker(name = "detailsForCustomerSupportApp",fallbackMethod
+             ="myCustomerDetailsFallBack")
+    public CustomerDetails myCustomerDetails(@RequestBody Customer customer) {
+        Account accounts = accountsRepository.findByCustomerId(customer.getCustomerId());
+        List<Loans> loans = loansFeignClient.getLoansDetails(customer);
+        List<Cards> cards = cardsFeignClient.getCardDetails(customer);
+
+        CustomerDetails customerDetails = new CustomerDetails();
+        customerDetails.setAccounts(accounts);
+        customerDetails.setLoans(loans);
+        customerDetails.setCards(cards);
+
+        return customerDetails;
     }
 
 }

@@ -13,7 +13,9 @@ import java.util.Optional;
 public interface AccountsRepository extends JpaRepository<Account, Long> {
 
     Account findByEmail (String email);
+
     boolean existsByEmail(String email);
+    Account findByCustomerId(Long customerId);
 
 
     @Transactional

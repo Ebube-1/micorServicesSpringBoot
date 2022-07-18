@@ -7,8 +7,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Account {
+public class Customer {
 
-    private int accountId;
+    private int customerId;
 
 }

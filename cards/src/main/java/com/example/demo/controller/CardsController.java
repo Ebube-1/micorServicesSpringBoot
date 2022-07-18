@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.config.CardsServiceConfig;
-import com.example.demo.model.Account;
+import com.example.demo.model.Customer;
 import com.example.demo.model.Cards;
 import com.example.demo.model.Properties;
 import com.example.demo.repository.CardsRepository;
@@ -23,9 +23,9 @@ public class CardsController {
     private final CardsRepository cardsRepository;
     private final CardsServiceConfig cardsConfig;
 
-    @PostMapping("api/myCards")
-    public List<Cards> getCardDetails(@RequestBody Account account) {
-        List<Cards> cards = cardsRepository.findByAccountId(account.getAccountId());
+    @PostMapping("myCards")
+    public List<Cards> getCardDetails(@RequestBody Customer customer) {
+        List<Cards> cards = cardsRepository.findByCustomerId(customer.getCustomerId());
         if (cards != null) {
             return cards;
         } else {

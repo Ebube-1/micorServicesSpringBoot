@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: configserver
+  profiles:
+    active: git
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Ebube-1/microservicesConfig.git
+          clone-on-start: true
+          default-label: main
+
+server:
+  port: 8071
+
+#encrypt:
+#  key: easybytes
+

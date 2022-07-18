@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/cards/demo.iml" filepath="$PROJECT_DIR$/cards/demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/loans/demo (1).iml" filepath="$PROJECT_DIR$/loans/demo (1).iml" />
       <module fileurl="file://$PROJECT_DIR$/accounts/demo (2).iml" filepath="$PROJECT_DIR$/accounts/demo (2).iml" />
+      <module fileurl="file://$PROJECT_DIR$/gatewayServer/gatewayServer.iml" filepath="$PROJECT_DIR$/gatewayServer/gatewayServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/serviceRegistry/serviceRegistry.iml" filepath="$PROJECT_DIR$/serviceRegistry/serviceRegistry.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/udemyMicroService.iml" filepath="$PROJECT_DIR$/.idea/udemyMicroService.iml" />
     </modules>

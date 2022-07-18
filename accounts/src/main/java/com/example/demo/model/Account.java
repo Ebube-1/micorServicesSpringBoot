@@ -18,8 +18,9 @@ import java.time.LocalDate;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "customer_acc_id")
     private Long id;
+
+    private Long customerId;
 
     @NotEmpty
     @Size(min = 3, message = "First name can not be less than 3")
