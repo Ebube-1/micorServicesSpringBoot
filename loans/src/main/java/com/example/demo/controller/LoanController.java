@@ -25,6 +25,7 @@ public class LoanController {
 
     @PostMapping("/myLoans")
     public List<Loans> getLoansDetails(@RequestBody Customer customer) {
+        System.out.println("invoking loans microservice");
         List<Loans> loans = loansRepository.findByCustomerIdOrderByStartDtDesc(customer.getCustomerId());
         if (loans != null) {
             return loans;

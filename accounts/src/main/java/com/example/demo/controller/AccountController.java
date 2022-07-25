@@ -9,7 +9,7 @@ import com.example.demo.serviceClients.LoansFeignClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,8 +44,10 @@ public class AccountController {
 
 
     @PostMapping("/myCustomerDetails")
-    @CircuitBreaker(name = "detailsForCustomerSupportApp",fallbackMethod
-             ="myCustomerDetailsFallBack")
+//    @CircuitBreaker(name = "detailsForCustomer",fallbackMethod
+//             ="myCustomerDetailsFallBack")
+
+    @Retry(name = "retryForCustomerDetails", fallbackMethod = "myCustomerDetailsFallBack")
     public CustomerDetails myCustomerDetails(@RequestBody Customer customer) {
         Account accounts = accountsRepository.findByCustomerId(customer.getCustomerId());
         List<Loans> loans = loansFeignClient.getLoansDetails(customer);
@@ -57,6 +59,17 @@ public class AccountController {
         customerDetails.setCards(cards);
 
         return customerDetails;
+    }
+
+
+    private CustomerDetails myCustomerDetailsFallBack(Customer customer, Throwable t) {
+        Account accounts = accountsRepository.findByCustomerId(customer.getCustomerId());
+        List<Loans> loans = loansFeignClient.getLoansDetails(customer);
+        CustomerDetails customerDetails = new CustomerDetails();
+        customerDetails.setAccounts(accounts);
+        customerDetails.setLoans(loans);
+        return customerDetails;
+
     }
 
 }
