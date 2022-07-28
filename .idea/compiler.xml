@@ -6,7 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="gatewayServer" />
+        <module name="gatewayserver" />
         <module name="demo (2)" />
         <module name="serviceRegistry" />
         <module name="demo" />
@@ -19,7 +19,7 @@
       <module name="demo" target="17" />
       <module name="demo (1)" target="17" />
       <module name="demo (2)" target="17" />
-      <module name="gatewayServer" target="17" />
+      <module name="gatewayserver" target="17" />
       <module name="serviceRegistry" target="17" />
     </bytecodeTargetLevel>
   </component>
@@ -29,7 +29,7 @@
       <module name="demo" options="-parameters" />
       <module name="demo (1)" options="-parameters" />
       <module name="demo (2)" options="-parameters" />
-      <module name="gatewayServer" options="-parameters" />
+      <module name="gatewayserver" options="-parameters" />
       <module name="serviceRegistry" options="-parameters" />
     </option>
   </component>

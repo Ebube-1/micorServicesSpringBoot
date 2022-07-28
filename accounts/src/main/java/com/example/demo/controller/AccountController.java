@@ -11,15 +11,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("")
+@RequestMapping
 @RequiredArgsConstructor
 public class AccountController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     private final AccountService accountService;
     private final AccountsServiceConfig accountsConfig;
@@ -49,6 +53,7 @@ public class AccountController {
 
     @Retry(name = "retryForCustomerDetails", fallbackMethod = "myCustomerDetailsFallBack")
     public CustomerDetails myCustomerDetails(@RequestBody Customer customer) {
+        logger.info("myCustomerDetails() method started");
         Account accounts = accountsRepository.findByCustomerId(customer.getCustomerId());
         List<Loans> loans = loansFeignClient.getLoansDetails(customer);
         List<Cards> cards = cardsFeignClient.getCardDetails(customer);
@@ -57,6 +62,7 @@ public class AccountController {
         customerDetails.setAccounts(accounts);
         customerDetails.setLoans(loans);
         customerDetails.setCards(cards);
+        logger.info("myCustomerDetails() method ended");
 
         return customerDetails;
     }
